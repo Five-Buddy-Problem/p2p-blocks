@@ -3,12 +3,18 @@ package main
 import (
 	"flag"
 	"log/slog"
+	"os"
 	"p2pBlocks/blockchain"
 	"p2pBlocks/network"
 	"time"
 )
 
 func main() {
+	err := os.MkdirAll("./tmp/blocks", os.ModePerm)
+	if err != nil {
+		slog.Error("Error creating directory './tmp/blocks': ", err)
+	}
+
 	apexFlag := flag.Bool("apex", false, "--apex | --apex=true | --apex=false [default false]")
 	pingFlag := flag.Bool("ping", false, "--ping | --ping=true | --ping=false [default false]")
 	addrFlag := flag.String("addr", network.AuxAddr, "--addr=127.0.0.1:3001  [default 127.0.0.1:]")
