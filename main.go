@@ -6,7 +6,6 @@ import (
 	"os"
 	"p2pBlocks/blockchain"
 	"p2pBlocks/network"
-	"time"
 )
 
 func main() {
@@ -16,7 +15,6 @@ func main() {
 	}
 
 	apexFlag := flag.Bool("apex", false, "--apex | --apex=true | --apex=false [default false]")
-	pingFlag := flag.Bool("ping", false, "--ping | --ping=true | --ping=false [default false]")
 	addrFlag := flag.String("addr", network.AuxAddr, "--addr=127.0.0.1:3001  [default 127.0.0.1:]")
 	flag.Parse()
 
@@ -33,15 +31,5 @@ func main() {
 		server = network.NewServer(*addrFlag, false, chain)
 	}
 
-	if *pingFlag {
-		go func() {
-			for {
-				time.Sleep(time.Second)
-				server.PingPong()
-			}
-		}()
-	}
-
-	go server.StartHttpServer()
-	server.Start()
+	server.StartHttpServer()
 }
